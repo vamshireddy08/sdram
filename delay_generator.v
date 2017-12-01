@@ -15,22 +15,23 @@ integer power,latency=0;
 
 always@(posedge clk)
 begin
+countout <= countout -1;
 
 if(reset)
             begin
                     countout=10'd0;tlat <=3'd0;
             end
 else
-                begin              
+    begin              
                 power <=program_data[2:0];
                     $display("power",power);
                         if(power==3'b111)
                     tburst <= 10'd1023;
                     else
-                    tburst <=2**power;
+                    tburst <=2**power;  
                                   latency =program_data[5:4]+2;
-                                        countout <= countout -1;  
-                                        tlat <=latency;                
+                                          tlat =latency; 
+                                                   
     if(load_tpre)
         countout <=tpre;
     else if(load_twait)
@@ -39,6 +40,6 @@ else
     countout <=tcas;
     else if(load_tburst)
     countout <=tburst;
-                end
+    end            
                 end
 endmodule
